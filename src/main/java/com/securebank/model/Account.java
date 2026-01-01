@@ -37,12 +37,13 @@ public class Account {
         lock.lock();
     }
 
+    /**
+     * Releases the lock held by the current thread.
+     * Note: Will throw IllegalMonitorStateException if not held by current thread,
+     * which helps catch programming errors during debugging.
+     */
     public void releaseLock() {
-        // Always release if held by current thread
-        // Using try-finally pattern ensures proper cleanup
-        if (lock.isHeldByCurrentThread()) {
-            lock.unlock();
-        }
+        lock.unlock();
     }
 
     public boolean tryLock() {

@@ -22,8 +22,13 @@ public class TransactionRepository {
         public Transaction mapRow(ResultSet rs, int rowNum) throws SQLException {
             Transaction transaction = new Transaction();
             transaction.setId(rs.getLong("id"));
-            transaction.setFromAccountId(rs.getLong("from_account_id"));
-            transaction.setToAccountId(rs.getLong("to_account_id"));
+            
+            // Handle nullable foreign keys for deposit/withdrawal transactions
+            Long fromId = (Long) rs.getObject("from_account_id");
+            Long toId = (Long) rs.getObject("to_account_id");
+            transaction.setFromAccountId(fromId);
+            transaction.setToAccountId(toId);
+            
             transaction.setAmount(rs.getBigDecimal("amount"));
             transaction.setTransactionType(rs.getString("transaction_type"));
             transaction.setStatus(rs.getString("status"));
@@ -67,9 +72,13 @@ public class TransactionRepository {
             return ps;
         }, keyHolder);
         
-        // Set the generated ID
-        Long generatedId = keyHolder.getKey().longValue();
-        transaction.setId(generatedId);
+        // Set the generated ID with null safety
+        if (keyHolder.getKey() != null) {
+            Long generatedId = keyHolder.getKey().longValue();
+            transaction.setId(generatedId);
+        } else {
+            throw new RuntimeException("Failed to retrieve generated transaction ID");
+        }
         
         return transaction;
     }

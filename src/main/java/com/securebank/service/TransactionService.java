@@ -59,9 +59,7 @@ public class TransactionService {
 
     public Future<Transaction> processTransactionAsync(Long fromAccountId, Long toAccountId, 
                                                        BigDecimal amount, String description) {
-        return executorService.submit(() -> {
-            return processTransaction(fromAccountId, toAccountId, amount, description);
-        });
+        return executorService.submit(() -> processTransaction(fromAccountId, toAccountId, amount, description));
     }
 
     public Transaction processTransaction(Long fromAccountId, Long toAccountId, 
