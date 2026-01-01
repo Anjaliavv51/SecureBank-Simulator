@@ -8,6 +8,7 @@ import com.securebank.model.Transaction;
 import com.securebank.repository.AccountRepository;
 import com.securebank.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -30,12 +31,15 @@ public class TransactionService {
     private TransactionRepository transactionRepository;
 
     private ExecutorService executorService;
-    private final int THREAD_POOL_SIZE = 10;
+    
+    // Thread pool size - configurable for different deployment environments
+    @Value("${transaction.thread-pool-size:10}")
+    private int threadPoolSize;
 
     @PostConstruct
     public void init() {
-        executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-        logger.info("Transaction Service initialized with " + THREAD_POOL_SIZE + " threads");
+        executorService = Executors.newFixedThreadPool(threadPoolSize);
+        logger.info("Transaction Service initialized with " + threadPoolSize + " threads");
     }
 
     @PreDestroy

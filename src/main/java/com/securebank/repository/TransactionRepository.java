@@ -51,19 +51,27 @@ public class TransactionRepository {
 
     public Transaction save(Transaction transaction) {
         String sql = "INSERT INTO transactions (from_account_id, to_account_id, amount, transaction_type, status, description, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())";
-        jdbcTemplate.update(sql,
-            transaction.getFromAccountId(),
-            transaction.getToAccountId(),
-            transaction.getAmount(),
-            transaction.getTransactionType(),
-            transaction.getStatus(),
-            transaction.getDescription()
-        );
         
-        // Get the last inserted transaction
-        String findSql = "SELECT * FROM transactions ORDER BY id DESC LIMIT 1";
-        List<Transaction> transactions = jdbcTemplate.query(findSql, transactionRowMapper);
-        return transactions.isEmpty() ? transaction : transactions.get(0);
+        // Use KeyHolder to retrieve generated ID
+        org.springframework.jdbc.support.KeyHolder keyHolder = new org.springframework.jdbc.support.GeneratedKeyHolder();
+        
+        jdbcTemplate.update(connection -> {
+            java.sql.PreparedStatement ps = connection.prepareStatement(sql, 
+                new String[]{"id"});
+            ps.setObject(1, transaction.getFromAccountId());
+            ps.setObject(2, transaction.getToAccountId());
+            ps.setBigDecimal(3, transaction.getAmount());
+            ps.setString(4, transaction.getTransactionType());
+            ps.setString(5, transaction.getStatus());
+            ps.setString(6, transaction.getDescription());
+            return ps;
+        }, keyHolder);
+        
+        // Set the generated ID
+        Long generatedId = keyHolder.getKey().longValue();
+        transaction.setId(generatedId);
+        
+        return transaction;
     }
 
     public void updateStatus(Long id, String status) {

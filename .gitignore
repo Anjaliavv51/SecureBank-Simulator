@@ -45,6 +45,9 @@ dist/
 *.seed
 *.log
 
+# Environment variables (keep .env.example)
+.env
+
 # OS
 .DS_Store
 Thumbs.db

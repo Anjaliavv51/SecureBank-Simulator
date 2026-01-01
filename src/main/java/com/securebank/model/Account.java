@@ -38,6 +38,8 @@ public class Account {
     }
 
     public void releaseLock() {
+        // Always release if held by current thread
+        // Using try-finally pattern ensures proper cleanup
         if (lock.isHeldByCurrentThread()) {
             lock.unlock();
         }
