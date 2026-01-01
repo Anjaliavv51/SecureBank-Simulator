@@ -1,0 +1,153 @@
+.transaction-history {
+  padding: 20px;
+}
+
+.transaction-history h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.transaction-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.transaction-item {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+.transaction-item:hover {
+  transform: translateX(4px);
+}
+
+.transaction-main {
+  flex: 1;
+}
+
+.transaction-info {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.transaction-type {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.transaction-type.transfer {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.transaction-type.deposit {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.transaction-type.withdrawal {
+  background-color: #fff3e0;
+  color: #e65100;
+}
+
+.transaction-id {
+  color: #7f8c8d;
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+}
+
+.transaction-details {
+  color: #555;
+  font-size: 14px;
+}
+
+.transaction-description {
+  margin: 5px 0;
+  font-weight: 500;
+}
+
+.transaction-accounts {
+  margin: 5px 0;
+  color: #7f8c8d;
+  font-size: 13px;
+}
+
+.transaction-right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.transaction-amount {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.transaction-amount.deposit,
+.transaction-amount.transfer {
+  color: #27ae60;
+}
+
+.transaction-amount.withdrawal {
+  color: #e74c3c;
+}
+
+.transaction-status {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.transaction-status.completed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.transaction-status.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.transaction-status.failed {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.transaction-date {
+  color: #95a5a6;
+  font-size: 12px;
+}
+
+.no-transactions {
+  text-align: center;
+  padding: 40px;
+  color: #7f8c8d;
+  font-size: 16px;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 40px;
+  color: #7f8c8d;
+  font-size: 16px;
+}
+
+.error {
+  color: #e74c3c;
+}
